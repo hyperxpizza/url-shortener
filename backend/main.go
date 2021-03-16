@@ -13,7 +13,7 @@ func main() {
 	r.GET("/:url", handlers.Redirect)
 	r.GET("/:url/info", handlers.Info)
 
-	r.Run()
+	r.Run(":8888")
 
 }
 
