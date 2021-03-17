@@ -1,6 +1,10 @@
 package database
 
-import "testing"
+import (
+	"fmt"
+	"log"
+	"testing"
+)
 
 var database Database
 
@@ -8,6 +12,29 @@ func init() {
 	database = NewDatabase()
 }
 
+/*
 func TestExistsID(t *testing.T) {
-	database.existsID(1)
+	e := database.IDexists(666)
+	fmt.Println(e)
 }
+*/
+
+func TestInsertItem(t *testing.T) {
+	id, err := database.Insert("https://google.com", 0)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("encoded id: ", id)
+}
+
+/*
+func TestLoad(t *testing.T) {
+	s, err := database.Load("ZNkw23qpiss")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(s)
+}
+*/

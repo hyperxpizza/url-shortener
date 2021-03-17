@@ -10,8 +10,8 @@ func main() {
 	r.Use(corsMiddleware())
 
 	r.POST("/encode", handlers.Encode)
-	r.GET("/:url", handlers.Redirect)
-	r.GET("/:url/info", handlers.Info)
+	r.GET("/:id", handlers.Redirect)
+	r.GET("/:id/info", handlers.Info)
 
 	r.Run(":8888")
 
