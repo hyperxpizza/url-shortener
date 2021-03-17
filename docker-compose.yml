@@ -6,3 +6,11 @@ services:
       - ./data:/data
     ports:
       - 6379:6379
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports: 
+      - "6666:6666"
+    depends_on: 
+      - redis
