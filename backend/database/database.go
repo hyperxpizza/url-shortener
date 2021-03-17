@@ -7,6 +7,7 @@ import (
 	"log"
 	"math/rand"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/go-redis/redis/v8"
@@ -43,6 +44,10 @@ func (d Database) IDexists(id uint64) bool {
 }
 
 func (d Database) Insert(url string, expiresAt time.Duration) (string, error) {
+	if !strings.HasPrefix(url, "http://") || !strings.HasPrefix(url, "https://") {
+		url = "http://" + url
+	}
+
 	//generate id
 	var id uint64
 	for {
@@ -77,11 +82,9 @@ func (d Database) Get(encodedID string) (*Item, error) {
 		return nil, err
 	}
 
-	/*
-		if !d.CheckIfKeyExists(decodedID) {
-			return nil, fmt.Errorf("Key does not exist")
-		}
-	*/
+	if !d.CheckIfKeyExists(decodedID) {
+		return nil, fmt.Errorf("Key does not exist")
+	}
 
 	s := d.client.Get(context.Background(), strconv.FormatUint(decodedID, 10))
 	if s.Err() != nil {
