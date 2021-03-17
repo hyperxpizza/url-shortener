@@ -1,11 +1,21 @@
 package main
 
 import (
+	"fmt"
+	"log"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/hyperxpizza/url-shortener/backend/handlers"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("loading .env file failed: %v\n", err)
+	}
+
 	r := gin.Default()
 	r.Use(corsMiddleware())
 
@@ -13,7 +23,7 @@ func main() {
 	r.GET("/:id", handlers.Redirect)
 	r.GET("/:id/info", handlers.Info)
 
-	r.Run(":8888")
+	r.Run(fmt.Sprintf(":%s", os.Getenv("SERVER_PORT")))
 
 }
 
