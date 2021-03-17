@@ -70,31 +70,39 @@ func (d Database) Insert(url string, expiresAt time.Duration) (string, error) {
 	return encoder.Encode(id), nil
 }
 
-func (d Database) Load(encodedID string) (string, error) {
+func (d Database) Get(encodedID string) (*Item, error) {
 	decodedID, err := encoder.Decode(encodedID)
 	if err != nil {
 		log.Fatalf("encoder.Decode failed: %v\n", err)
-		return "", err
+		return nil, err
 	}
+
+	/*
+		if !d.CheckIfKeyExists(decodedID) {
+			return nil, fmt.Errorf("Key does not exist")
+		}
+	*/
 
 	s := d.client.Get(context.Background(), strconv.FormatUint(decodedID, 10))
+	if s.Err() != nil {
+		log.Fatal(err)
+		return nil, err
+	}
 
-	return s.String(), nil
-}
-
-func (d Database) GetInfo(encodedID string) error {
-	decodedID, err := encoder.Decode(encodedID)
+	var i Item
+	data, err := s.Bytes()
 	if err != nil {
-		log.Fatalf("encode.Decode failed: %v\n", err)
-		return err
+		log.Fatalf("converting to bytes failed: %v\n", err)
+		return nil, err
 	}
 
-	if !d.CheckIfKeyExists(decodedID) {
-		return fmt.Errorf("this id does not exists")
+	err = json.Unmarshal(data, &i)
+	if err != nil {
+		log.Fatalf("json.Unmarshal failed: %v\n", err)
+		return nil, err
 	}
 
-	//val := d.client.Get(context.Background())
-	return nil
+	return &i, nil
 }
 
 func (d Database) CheckIfKeyExists(decodedID uint64) bool {

@@ -10,8 +10,8 @@ import (
 )
 
 type urlRequest struct {
-	URL        string
-	Expiration string
+	URL        string `json:"url"`
+	Expiration string `json:"expiration"`
 }
 
 var db database.Database
@@ -75,6 +75,7 @@ func Encode(c *gin.Context) {
 
 func Redirect(c *gin.Context) {
 	id := c.Param("id")
+	item, err := db.Get(id)
 
 }
 

@@ -19,6 +19,7 @@ func TestExistsID(t *testing.T) {
 }
 */
 
+/*
 func TestInsertItem(t *testing.T) {
 	id, err := database.Insert("https://google.com", 0)
 	if err != nil {
@@ -27,14 +28,13 @@ func TestInsertItem(t *testing.T) {
 
 	fmt.Println("encoded id: ", id)
 }
+*/
 
-/*
 func TestLoad(t *testing.T) {
-	s, err := database.Load("ZNkw23qpiss")
+	s, err := database.Get("O8KEZlAseeb")
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	fmt.Println(s)
 }
-*/
