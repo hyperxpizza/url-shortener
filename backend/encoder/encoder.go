@@ -1,6 +1,10 @@
 package encoder
 
-import "strings"
+import (
+	"fmt"
+	"math"
+	"strings"
+)
 
 const (
 	alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -16,4 +20,19 @@ func Encode(n uint64) string {
 	}
 
 	return builder.String()
+}
+
+func Decode(encoded string) (uint64, error) {
+	var n uint64
+
+	for i, v := range encoded {
+		pos := strings.IndexRune(alphabet, v)
+		if pos == -1 {
+			return uint64(pos), fmt.Errorf("invalid character: %s\n", string(v))
+		}
+
+		n += uint64(pos) * uint64(math.Pow(float64(length), float64(i)))
+	}
+
+	return n, nil
 }
