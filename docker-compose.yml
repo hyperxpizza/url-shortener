@@ -6,6 +6,7 @@ services:
       - ./data:/data
     ports:
       - 6379:6379
+    restart: always
   backend:
     build:
       context: ./backend
@@ -14,3 +15,18 @@ services:
       - "6666:6666"
     depends_on: 
       - redis
+    restart: always
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports: 
+      - 3000:3000
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    depends_on: 
+      - backend
+    restart: always
+    
+    
