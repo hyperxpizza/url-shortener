@@ -26,7 +26,7 @@ type Item struct {
 func NewDatabase() Database {
 	c := redis.NewClient(&redis.Options{
 		Network:  "tcp",
-		Addr:     "localhost:6379",
+		Addr:     "redis:6379",
 		Password: "",
 		DB:       0,
 	})

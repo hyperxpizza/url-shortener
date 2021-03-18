@@ -16,6 +16,8 @@ services:
     depends_on: 
       - redis
     restart: always
+    links:
+      - redis
   client:
     build:
       context: ./client
@@ -27,6 +29,4 @@ services:
       - '/app/node_modules'
     depends_on: 
       - backend
-    restart: always
-    
-    
+    restart: always   

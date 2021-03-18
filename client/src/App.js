@@ -2,60 +2,117 @@ import './App.css';
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    maxWidth: 1000,
+  },
+  rootForm: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
+
+
+const expirationOptions = [
+  {
+    value: "never",
+    label: "Never",
+  },
+  {
+    value: "5",
+    label: "5 min.",
+  },
+  {
+    value: "10",
+    label: "10 min.",
+  },
+  {
+    value: "15",
+    label: "15 min."
+  },
+  {
+    value: "30",
+    label: "30 min."
+  },
+  {
+    value: "hour",
+    label: "1 hour",
+  }
+];
+
 function App() {
 
-  const [data, setData] = useState({
-    url: "",
-    expiration: "",
+  const classes = useStyles();
+  const [payload, setPayload] = useState({
+    "url": "",
+    "expiration": "5",
   });
 
-  const [response, setResponse] = useState(null);
+  const handleChange = (e) => {
+    const {id, value} = e.target
+    setPayload(prevPayload => ({
+      ...prevPayload,
+      [id]: value
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const payload = {
-      "url": data.url,
-      "expiration": data.expiration
-    }
-
     axios.post(`http://localhost:6666/encode`, payload)
       .then(response => {
-        console.log(response);
-        setResponse(response);
+          console.log(response);
       })
       .catch(err => {
-        console.log(err);
+          console.log(err);
       })
   }
 
   return (
     <div className="App">
-      <div className="content">
-        <div className="content-inside">
-          <header className="header">
-       	    <h1>Short URL</h1>
-          </header>
-          <div className="url">
-            <form>
-              <label>URL:</label>
-              <input type="text" />
-              <label>Expire in:</label>
-              <select>
-                <option value="never">Never</option>
-                <option value="5">5 min</option>
-                <option value="10">10 min</option>
-                <option value="15">15 min</option>
-                <option value="30">30 min</option>
-                <option value="hour">1 Hour</option>
-              </select>
-            </form>
-          </div>
-        </div>
-      </div>
-      <footer className="footer">
-        <h2>Footer</h2>
-      </footer>
+      <Container className={classes.root}>
+        <Typography variant="h2" component="h2" align="center">
+          Short URL
+        </Typography>
+        <form className={classes.rootForm} noValidate>
+          <TextField 
+            label="URL"
+            autoFocus
+            id="url"
+            value={payload.url}
+            onChange={handleChange}
+          />
+          <TextField 
+            id="expiration"
+            select
+            label="Expire at"
+            value={payload.expiration}
+            onChange={handleChange}
+            >
+              {expirationOptions.map((option) => {
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              })}
+          </TextField>
+          <Button
+            type="submit"
+            color="primary"
+            onClick={handleSubmit}
+          >
+          Short it!
+          </Button>
+        </form>
+      </Container>
     </div>
   );
 }
