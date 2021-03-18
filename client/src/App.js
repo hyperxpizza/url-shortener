@@ -38,7 +38,17 @@ function App() {
           </header>
           <div className="url">
             <form>
-
+              <label>URL:</label>
+              <input type="text" />
+              <label>Expire in:</label>
+              <select>
+                <option value="never">Never</option>
+                <option value="5">5 min</option>
+                <option value="10">10 min</option>
+                <option value="15">15 min</option>
+                <option value="30">30 min</option>
+                <option value="hour">1 Hour</option>
+              </select>
             </form>
           </div>
         </div>
