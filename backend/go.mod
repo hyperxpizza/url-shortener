@@ -3,6 +3,7 @@ module github.com/hyperxpizza/url-shortener/backend
 go 1.16
 
 require (
+	github.com/gin-contrib/cors v1.3.1 // indirect
 	github.com/gin-gonic/gin v1.6.3 // indirect
 	github.com/go-redis/redis/v8 v8.7.1 // indirect
 	github.com/gomodule/redigo v1.8.4 // indirect

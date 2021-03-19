@@ -13,6 +13,6 @@ COPY . .
 
 RUN go build -o main .
 
-EXPOSE 6666
+EXPOSE 8888
 
 CMD ["./main"]

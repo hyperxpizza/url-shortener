@@ -68,13 +68,16 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`http://localhost:6666/encode`, payload)
-      .then(response => {
-          console.log(response);
-      })
-      .catch(err => {
-          console.log(err);
-      })
+    console.log(payload);
+    axios.post('http://localhost:8888/encode', {
+      "url": payload.url,
+      "expiration": payload.expiration
+    })
+    .then((response) => {
+      console.log(response);
+    }, (error) => {
+      console.log(error);
+    });
   }
 
   return (
@@ -83,35 +86,37 @@ function App() {
         <Typography variant="h2" component="h2" align="center">
           Short URL
         </Typography>
-        <form className={classes.rootForm} noValidate>
-          <TextField 
-            label="URL"
-            autoFocus
-            id="url"
-            value={payload.url}
-            onChange={handleChange}
-          />
-          <TextField 
-            id="expiration"
-            select
-            label="Expire at"
-            value={payload.expiration}
-            onChange={handleChange}
+        <Container className={classes.root}>
+          <form className={classes.rootForm} noValidate>
+            <TextField 
+              label="URL"
+              autoFocus
+              id="url"
+              value={payload.url}
+              onChange={handleChange}
+            />
+            <TextField 
+              id="expiration"
+              select
+              label="Expire at"
+              value={payload.expiration}
+              onChange={handleChange}
+              >
+                {expirationOptions.map((option) => {
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                })}
+            </TextField>
+            <Button
+              type="submit"
+              color="primary"
+              onClick={handleSubmit}
             >
-              {expirationOptions.map((option) => {
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              })}
-          </TextField>
-          <Button
-            type="submit"
-            color="primary"
-            onClick={handleSubmit}
-          >
-          Short it!
-          </Button>
-        </form>
+            Short it!
+            </Button>
+          </form>
+        </Container>
       </Container>
     </div>
   );
