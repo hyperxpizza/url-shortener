@@ -43,7 +43,8 @@ func (d Database) IDexists(id uint64) bool {
 }
 
 func (d Database) Insert(url string, expiresAt time.Duration) (string, error) {
-	if !strings.HasPrefix(url, "http://") || !strings.HasPrefix(url, "https://") {
+
+	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
 		url = "http://" + url
 	}
 
@@ -106,3 +107,5 @@ func (d Database) Get(encodedID string) (*Item, error) {
 
 	return &i, nil
 }
+
+//func (d Database) Update(encodedID string)

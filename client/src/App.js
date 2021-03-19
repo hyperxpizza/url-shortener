@@ -56,6 +56,7 @@ function App() {
   const classes = useStyles();
   const [url, setUrl] = useState("");
   const [expiration, setExpiration] = useState();
+  const [resp, setResp] = useState();
 
   const handleChangeURL = (e) => {
     setUrl(e.target.value);
@@ -68,20 +69,20 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const payload = {
+    //console.log(payload);
+
+    axios.post('http://localhost:8888/encode', {
       "url": url,
       "expiration": expiration
-    }
-    console.log(payload);
-    axios.post('http://localhost:8888/encode', {
-      "url": payload.url,
-      "expiration": payload.expiration
     })
     .then((response) => {
       console.log(response);
+      let url = "http://localhost:8888/" + response.data.code;
+      setResp(url);
     }, (error) => {
       console.log(error);
     });
+
   }
 
   return (
@@ -98,6 +99,7 @@ function App() {
               id="url"
               value={url}
               onChange={handleChangeURL}
+              required
             />
             <Select
               id="expiration"
@@ -118,7 +120,7 @@ function App() {
           </form>
         </Container>
         <Container>
-          
+          <h1><a href={resp}>{resp}</a></h1>
         </Container>
       </Container>
     </div>
