@@ -1,16 +1,12 @@
-FROM node:13.12.0-alpine
+FROM node:alpine
 
 WORKDIR /app
 
-ENV PATH /app/node_modules/.bin:$PATH
-
-# install app dependencies
-COPY package.json ./
-COPY package-lock.json ./
+COPY package* .
 RUN npm install
 
-# add app
-COPY . ./
+COPY . .
 
-# start app
+EXPOSE 3000
+
 CMD ["npm", "start"]

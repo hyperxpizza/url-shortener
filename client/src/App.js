@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -12,15 +13,26 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
-    maxWidth: 1000,
+    marginTop: '50px',
+    flexGrow: 1,
+  },
+  main: {
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(2),
   },
   rootForm: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
       width: '25ch',
     },
+    alignItems: 'center',
   },
+  mainContainer: {
+    paddingTop: '10px',
+  },
+  select: {
+    paddingTop: '23.5px',
+  }
 }));
 
 
@@ -69,8 +81,6 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    //console.log(payload);
-
     axios.post('http://localhost:8888/encode', {
       "url": url,
       "expiration": expiration
@@ -79,6 +89,8 @@ function App() {
       console.log(response);
       let url = "http://localhost:8888/" + response.data.code;
       setResp(url);
+      setUrl("");
+      setExpiration();
     }, (error) => {
       console.log(error);
     });
@@ -86,13 +98,13 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Container className={classes.root}>
+    <div className={classes.root}>
+      <Container>
         <Typography variant="h2" component="h2" align="center">
           Short URL
         </Typography>
-        <Container className={classes.root}>
-          <form className={classes.rootForm} noValidate>
+        <Grid container className={classes.root} spacing={1} justify="center" alignItems="center">
+          <form className={classes.rootForm} validate>
             <TextField 
               label="URL"
               autoFocus
@@ -105,6 +117,7 @@ function App() {
               id="expiration"
               value={expiration}
               onChange={handleChangeExpiration}
+              className={classes.select}
             >
               {expirationOptions.map(option => (
                 <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>
@@ -118,9 +131,11 @@ function App() {
             Short it!
             </Button>
           </form>
-        </Container>
-        <Container>
-          <h1><a href={resp}>{resp}</a></h1>
+        </Grid>
+        <Container className={classes.mainContainer}>
+          <Typography variant="h4" component="h4" align="center">
+            <a href={resp} target="_blank">{resp}</a>
+          </Typography>
         </Container>
       </Container>
     </div>
