@@ -35,8 +35,7 @@ func NewDatabase() Database {
 }
 
 func (d Database) IDexists(id uint64) bool {
-	res := d.client.Exists(context.Background(), strconv.FormatUint(id, 10))
-	if res.Val() == 0 {
+	if exists := d.client.Exists(context.Background(), strconv.FormatUint(id, 10)); exists.Val() == 0 {
 		return false
 	}
 
@@ -82,7 +81,7 @@ func (d Database) Get(encodedID string) (*Item, error) {
 		return nil, err
 	}
 
-	if !d.CheckIfKeyExists(decodedID) {
+	if !d.IDexists(decodedID) {
 		return nil, fmt.Errorf("Key does not exist")
 	}
 
@@ -106,12 +105,4 @@ func (d Database) Get(encodedID string) (*Item, error) {
 	}
 
 	return &i, nil
-}
-
-func (d Database) CheckIfKeyExists(decodedID uint64) bool {
-	if exists := d.client.Exists(context.Background(), strconv.FormatUint(decodedID, 10)); exists.Val() == 0 {
-		return false
-	}
-
-	return true
 }

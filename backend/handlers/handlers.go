@@ -96,5 +96,23 @@ func Redirect(c *gin.Context) {
 }
 
 func Info(c *gin.Context) {
+	id := c.Param("id")
+	item, err := db.Get(id)
+	if err != nil {
+		if err.Error() == "Key does not exist" {
+			c.JSON(http.StatusNotFound, gin.H{
+				"success": false,
+				"message": "not found",
+			})
+			return
+		}
+		c.JSON(http.StatusBadRequest, gin.H{
+			"success": false,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, item)
 
 }
