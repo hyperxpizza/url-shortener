@@ -54,21 +54,24 @@ const expirationOptions = [
 function App() {
 
   const classes = useStyles();
-  const [payload, setPayload] = useState({
-    "url": "",
-    "expiration": "5",
-  });
+  const [url, setUrl] = useState("");
+  const [expiration, setExpiration] = useState();
 
-  const handleChange = (e) => {
-    const {id, value} = e.target
-    setPayload(prevPayload => ({
-      ...prevPayload,
-      [id]: value
-    }));
-  };
+  const handleChangeURL = (e) => {
+    setUrl(e.target.value);
+  }
+
+  const handleChangeExpiration = (e) => {
+    setExpiration(e.target.value);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const payload = {
+      "url": url,
+      "expiration": expiration
+    }
     console.log(payload);
     axios.post('http://localhost:8888/encode', {
       "url": payload.url,
@@ -93,13 +96,13 @@ function App() {
               label="URL"
               autoFocus
               id="url"
-              value={payload.url}
-              onChange={handleChange}
+              value={url}
+              onChange={handleChangeURL}
             />
             <Select
               id="expiration"
-              value={payload.expiration}
-              onChange={handleChange}
+              value={expiration}
+              onChange={handleChangeExpiration}
             >
               {expirationOptions.map(option => (
                 <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>
