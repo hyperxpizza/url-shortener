@@ -1,5 +1,5 @@
 # Basic url shortener
-Basic url shortener build with react, go and redis.
+Basic url shortener built with react, go and redis.
 ## How to run?
 `docker-compose up -d`
 
