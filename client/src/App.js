@@ -6,6 +6,7 @@ import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -95,19 +96,15 @@ function App() {
               value={payload.url}
               onChange={handleChange}
             />
-            <TextField 
+            <Select
               id="expiration"
-              select
-              label="Expire at"
               value={payload.expiration}
               onChange={handleChange}
-              >
-                {expirationOptions.map((option) => {
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                })}
-            </TextField>
+            >
+              {expirationOptions.map(option => (
+                <MenuItem value={option.value} key={option.value}>{option.label}</MenuItem>
+              ))}
+            </Select>
             <Button
               type="submit"
               color="primary"
@@ -116,6 +113,9 @@ function App() {
             Short it!
             </Button>
           </form>
+        </Container>
+        <Container>
+          
         </Container>
       </Container>
     </div>
