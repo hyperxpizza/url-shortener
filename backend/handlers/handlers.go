@@ -22,9 +22,14 @@ func init() {
 }
 
 func Encode(c *gin.Context) {
-	if c.Request.Header["Authorization"][0] != os.Getenv("API_KEY") {
+
+	authHeader := c.Request.Header["Authorization"]
+	if len(authHeader) <= 0 {
 		c.AbortWithStatus(401)
-		return
+	}
+
+	if authHeader[1] != os.Getenv("API_KEY") {
+		c.AbortWithStatus(401)
 	}
 
 	var request urlRequest
