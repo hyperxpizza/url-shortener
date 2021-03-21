@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,11 @@ func init() {
 }
 
 func Encode(c *gin.Context) {
+	if c.Request.Header["Authorization"][0] != os.Getenv("API_KEY") {
+		c.AbortWithStatus(401)
+		return
+	}
+
 	var request urlRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
