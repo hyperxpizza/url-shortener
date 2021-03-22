@@ -1,8 +1,8 @@
 package handlers
 
 import (
+	"fmt"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -24,13 +24,16 @@ func init() {
 func Encode(c *gin.Context) {
 
 	authHeader := c.Request.Header["Authorization"]
+	fmt.Println("AuthHeader: ", authHeader)
 	if len(authHeader) <= 0 {
 		c.AbortWithStatus(401)
 	}
 
-	if authHeader[1] != os.Getenv("API_KEY") {
-		c.AbortWithStatus(401)
-	}
+	/*
+		auth := strings.Split(authHeader[0], " ")
+		if auth[1] != os.Getenv("API_KEY") {
+			c.AbortWithStatus(401)
+		} */
 
 	var request urlRequest
 	if err := c.ShouldBindJSON(&request); err != nil {

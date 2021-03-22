@@ -62,7 +62,7 @@ const expirationOptions = [
 ];
 
 const Home = () => {
-    const classes = useStyles();
+  const classes = useStyles();
   const [url, setUrl] = useState("");
   const [expiration, setExpiration] = useState();
   const [resp, setResp] = useState();
@@ -78,9 +78,16 @@ const Home = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('http://localhost:8888/encode', {
+    let endpoint = process.env.REACT_APP_SERVER_HOST + ":" + process.env.REACT_APP_SERVER_PORT + process.env.REACTAPP_URL_ENDPOINT
+    let apiKey = "apiKey " + process.env.REACT_APP_API_KEY;
+
+    axios.post(endpoint, {
       "url": url,
       "expiration": expiration
+    },{
+        headers: {
+            Authorization: apiKey,
+        },
     })
     .then((response) => {
       console.log(response);
