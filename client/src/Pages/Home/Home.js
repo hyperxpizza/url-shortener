@@ -78,8 +78,10 @@ const Home = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let endpoint = process.env.REACT_APP_SERVER_HOST + ":" + process.env.REACT_APP_SERVER_PORT + process.env.REACTAPP_URL_ENDPOINT
+    let endpoint = process.env.REACT_APP_SERVER_HOST + ":" + process.env.REACT_APP_SERVER_PORT + process.env.REACT_APP_URL_ENDPOINT
     let apiKey = "apiKey " + process.env.REACT_APP_API_KEY;
+
+    console.log("endpoint: " + endpoint);
 
     axios.post(endpoint, {
       "url": url,
