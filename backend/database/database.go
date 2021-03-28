@@ -108,11 +108,14 @@ func (d Database) Get(encodedID string) (*Item, error) {
 	return &i, nil
 }
 
+/*
 func (d Database) UpdateHits(encodedID string) error {
 	decodedID := encoder.Decode(encodedID)
 	if err != nil {
 		log.Fatalf("encoder.Decode failed: %v\n", err)
-		return nil, err
+		return err
 	}
 
+	return nil
 }
+*/

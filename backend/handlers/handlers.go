@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -111,6 +112,9 @@ func Redirect(c *gin.Context) {
 
 func Info(c *gin.Context) {
 	id := c.Param("id")
+
+	log.Println("INFO ID: ", id)
+
 	item, err := db.Get(id)
 	if err != nil {
 		if err.Error() == "Key does not exist" {
