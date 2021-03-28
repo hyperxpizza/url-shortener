@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 	"time"
 
@@ -21,6 +23,19 @@ func init() {
 }
 
 func Encode(c *gin.Context) {
+
+	authHeader := c.Request.Header["Authorization"]
+	fmt.Println("AuthHeader: ", authHeader)
+	if len(authHeader) <= 0 {
+		c.AbortWithStatus(401)
+	}
+
+	/*
+		auth := strings.Split(authHeader[0], " ")
+		if auth[1] != os.Getenv("API_KEY") {
+			c.AbortWithStatus(401)
+		} */
+
 	var request urlRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -97,6 +112,9 @@ func Redirect(c *gin.Context) {
 
 func Info(c *gin.Context) {
 	id := c.Param("id")
+
+	log.Println("INFO ID: ", id)
+
 	item, err := db.Get(id)
 	if err != nil {
 		if err.Error() == "Key does not exist" {

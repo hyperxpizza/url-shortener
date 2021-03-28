@@ -42,3 +42,13 @@ func corsMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+func apiKeyMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		a := c.Request.Header["Authorization"][0]
+		if a != os.Getenv("API_KEY") {
+			c.AbortWithStatus(401)
+		}
+		c.Next()
+	}
+}
