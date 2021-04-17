@@ -1,13 +1,11 @@
 FROM node:alpine
-
 WORKDIR /app
-
-COPY package.json .
-COPY package-lock.json .
+COPY package*.json /app/
 RUN npm install
+COPY . ./app/
+RUN npm run build
 
-COPY . .
-
+FROM nginx:alpine as prod
 EXPOSE 3000
-
-CMD ["npm", "start"]
+COPY --from=build /root/build /usr/share/nginx/html
+COPY nginx.conf /etv/nginx/nginx.conf

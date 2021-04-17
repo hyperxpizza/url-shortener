@@ -19,9 +19,9 @@ func main() {
 	r := gin.Default()
 	r.Use(corsMiddleware())
 
-	r.POST("/encode", handlers.Encode)
-	r.GET("/:id", handlers.Redirect)
-	r.GET("/:id/info", handlers.Info)
+	r.POST("api/encode", handlers.Encode)
+	r.GET("api/:id", handlers.Redirect)
+	r.GET("api/:id/info", handlers.Info)
 
 	r.Run(fmt.Sprintf(":%s", os.Getenv("SERVER_PORT")))
 

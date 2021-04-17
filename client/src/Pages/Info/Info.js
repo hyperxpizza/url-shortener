@@ -12,7 +12,7 @@ const Info = () => {
 
     useEffect(() => {
 
-        let endpoint = process.env.REACT_APP_SERVER_HOST + ":" + process.env.REACT_APP_SERVER_PORT + "/" + id + process.env.REACT_APP_INFO_ENDPOINT;
+        let endpoint = process.env.REACT_APP_SERVER_HOST + ":" + "api" + process.env.REACT_APP_SERVER_PORT + "/" + id + process.env.REACT_APP_INFO_ENDPOINT;
         axios.get(endpoint)
             .then((response) => {
                 setData(response.data);
